@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/codingsince1985/geo-golang/openstreetmap"
 	"github.com/gorilla/mux"
 )
 
@@ -12,12 +14,27 @@ func main() {
 
 	r.Handle("/", http.FileServer(http.Dir("./views/")))
 
-	http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
-		// Serve up the root html doc
-		http.ServeFile(rw, r, "./main.html")
-		// io.WriteString(rw, "<!DOCTYPE html><html><h1 style='color: green'>Hello!</h1></html>")
-		return
-	})
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 
-	log.Fatal(http.ListenAndServe(":9090", nil))
+	r.Handle("/status", StatusCheck).Methods("GET")
+
+	// Home page
+	r.Handle("/home", HomeHandler).Methods("GET")
+
+	log.Fatal(http.ListenAndServe(":9090", r))
 }
+
+var StatusCheck = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("API is up and running."))
+})
+
+var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	// Get location in lat/lon
+	location, _ := openstreetmap.Geocoder().Geocode("996 Crestwood Lane, O'Fallon, MO, 63366")
+	fmt.Printf("%.6f : %.6f", location.Lat, location.Lng)
+	s := fmt.Sprintf("%.6f : %.6f", location.Lat, location.Lng)
+	w.Write([]byte(s))
+
+	// Get weather
+	
+})
