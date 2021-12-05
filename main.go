@@ -12,9 +12,12 @@ import (
 func main() {
 	r := mux.NewRouter()
 
+	// Load main page
+	r.Handle("/", LoadMainPage).Methods("GET")
+
 	r.Handle("/status", StatusCheck).Methods("GET")
 
-	// Home page
+	// Weather
 	r.Handle("/weather", HomeHandler).Methods("GET")
 
 	// Stand up notes
@@ -22,6 +25,10 @@ func main() {
 
 	log.Fatal(http.ListenAndServe(":9090", r))
 }
+
+var LoadMainPage = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hi! My name is David Kruggel and I am a software engineer specializing in .NET and Go."))
+})
 
 var StatusCheck = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("API is up and running."))
