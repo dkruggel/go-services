@@ -1,4 +1,4 @@
-package main
+package goservices
 
 import (
 	"encoding/json"
@@ -83,25 +83,4 @@ func GetCelcius(incoming float64) float64 {
 func GetLocalTime(inc float64) string {
 	loc, _ := time.LoadLocation("America/Chicago")
 	return time.Unix(int64(inc), 0).UTC().In(loc).Format("3:04pm")
-}
-
-type WeatherNow struct {
-	Current WeatherInfo `json:"current"`
-}
-
-type WeatherRain struct {
-	LastHour float64 `json:"1h"`
-}
-
-type WeatherSnow struct {
-	LastHour float64 `json:"1h"`
-}
-
-type WeatherInfo struct {
-	Sunrise     float64     `json:"sunrise"`
-	Sunset      float64     `json:"sunset"`
-	CurrentTemp float64     `json:"temp"`
-	FeelsLike   float64     `json:"feels_like"`
-	Rain        WeatherRain `json:"rain"`
-	Snow        WeatherSnow `json:"snow"`
 }
