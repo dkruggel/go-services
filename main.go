@@ -32,7 +32,7 @@ func main() {
 }
 
 var LoadMainPage = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hi! My name is David Kruggel and I am a software engineer specializing in .NET and Go."))
+	w.Write([]byte("Hi! My name is David Kruggel and I am a software engineer specializing in .NET framework/core, Go, and React."))
 })
 
 var StatusCheck = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
