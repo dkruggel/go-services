@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	standupnotesservice "github.com/dkruggel/go-services/standup-notes-service"
 	weatherservice "github.com/dkruggel/go-services/weather-service"
@@ -23,7 +24,11 @@ func main() {
 	// Stand up notes
 	r.Handle("/notes/{date}", NotesHandler).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":9090", r))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9090"
+	}
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }
 
 var LoadMainPage = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
