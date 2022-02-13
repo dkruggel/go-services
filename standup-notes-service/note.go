@@ -42,13 +42,10 @@ func GetNote(date string) string {
 	}()
 
 	coll := client.Database("standup-notes").Collection("standup-notes")
-
+	
 	var result bson.M
-	err = coll.FindOne(context.TODO(), bson.M{
-		"$set": bson.M{
-			"Date": date,
-		},
-	}).Decode(&result)
+	filter := bson.M{"Date": date}
+	err = coll.FindOne(context.TODO(), filter).Decode(&result)
 	if err == mongo.ErrNoDocuments {
 		return fmt.Sprintf("No document was found with the date %s\n", date)
 	}
@@ -57,6 +54,7 @@ func GetNote(date string) string {
 	}
 
 	jsonData, err := json.MarshalIndent(result, "", "  ")
+	
 	if err != nil {
 		panic(err)
 	}
