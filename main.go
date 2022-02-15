@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
@@ -39,7 +40,8 @@ var LoadMainPage = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)
 var StatusCheck = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Write([]byte("API is up and running."))
+	// w.Write([]byte("API is up and running."))
+	json.NewEncoder(w).Encode("API is up and running.")
 })
 
 var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
