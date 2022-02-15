@@ -23,6 +23,7 @@ func main() {
 
 	// Stand up notes
 	r.Handle("/notes/{date}", NotesHandler).Methods("GET")
+	r.Handle("/notes/{date}", NotesHandler).Methods("POST")
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -36,6 +37,8 @@ var LoadMainPage = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)
 })
 
 var StatusCheck = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Write([]byte("API is up and running."))
 })
 
@@ -46,7 +49,13 @@ var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 
 var NotesHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	notetext := standupnotesservice.GetNote(vars["date"])
 
-	w.Write([]byte(notetext))
+	switch r.Method {
+	case "GET":
+		notetext := standupnotesservice.GetNote(vars["date"])
+
+		w.Write([]byte(notetext))
+	case "POST":
+		w.Write([]byte("Saved"))
+	}
 })
