@@ -45,7 +45,10 @@ var StatusCheck = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 })
 
 var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	weathertext := weatherservice.GetWeather()
+	json.NewEncoder(w).Encode(weathertext)
 	w.Write([]byte(weathertext))
 })
 
