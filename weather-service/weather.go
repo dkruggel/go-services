@@ -44,7 +44,7 @@ func GetLocalTime(inc float64) string {
 	return time.Unix(int64(inc), 0).UTC().In(loc).Format("3:04pm")
 }
 
-func GetWeather() string {
+func GetWeather() WeatherNow {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
@@ -74,20 +74,24 @@ func GetWeather() string {
 	}
 
 	dec := json.NewDecoder(strings.NewReader(string(body)))
-	var text string
+	// var text string
+
+	var c WeatherNow
 
 	for {
-		var c WeatherNow
 		if err := dec.Decode(&c); err == io.EOF {
 			break
 		} else if err != nil {
 			log.Fatal(err)
 		}
 
-		text = fmt.Sprintf("Current: %.2f\u2103\nReal Feel: %.2f\u2103\nSunrise: %s\nSunset: %s\n", GetCelcius(c.Current.CurrentTemp),
-			GetCelcius(c.Current.FeelsLike), GetLocalTime(c.Current.Sunrise),
-			GetLocalTime(c.Current.Sunset))
+		c.Current.CurrentTemp = GetCelcius(c.Current.CurrentTemp)
+		c.Current.FeelsLike = GetCelcius(c.Current.FeelsLike)
+
+		// text = fmt.Sprintf("Current: %.2f\u2103\nReal Feel: %.2f\u2103\nSunrise: %s\nSunset: %s\n", GetCelcius(c.Current.CurrentTemp),
+		// 	GetCelcius(c.Current.FeelsLike), GetLocalTime(c.Current.Sunrise),
+		// 	GetLocalTime(c.Current.Sunset))
 	}
 
-	return text
+	return c
 }
