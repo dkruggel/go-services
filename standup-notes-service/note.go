@@ -3,7 +3,6 @@ package standupnotesservice
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 
@@ -22,7 +21,7 @@ type StandupNote struct {
 	GoBacks     string
 }
 
-func GetNote(date string) string {
+func GetNote(date string) StandupNote {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
@@ -42,25 +41,28 @@ func GetNote(date string) string {
 	}()
 
 	coll := client.Database("standup-notes").Collection("standup-notes")
-	
+
 	var result bson.M
 	filter := bson.M{"Date": date}
 	err = coll.FindOne(context.TODO(), filter).Decode(&result)
 	if err == mongo.ErrNoDocuments {
-		return fmt.Sprintf("No document was found with the date %s\n", date)
+		//return fmt.Sprintf("No document was found with the date %s\n", date)
+		var note StandupNote
+		return note
 	}
 	if err != nil {
 		panic(err)
 	}
 
 	jsonData, err := json.MarshalIndent(result, "", "  ")
-	
+
 	if err != nil {
 		panic(err)
 	}
 
 	var note StandupNote
 	json.Unmarshal(jsonData, &note)
+	return note
 
-	return fmt.Sprintf("Date: %s\nYesterday: %s\nToday: %s\nImpediments: %s\nGo Backs: %s\n", note.Date, note.Yesterday, note.Today, note.Impediments, note.GoBacks)
+	// return fmt.Sprintf("Date: %s\nYesterday: %s\nToday: %s\nImpediments: %s\nGo Backs: %s\n", note.Date, note.Yesterday, note.Today, note.Impediments, note.GoBacks)
 }

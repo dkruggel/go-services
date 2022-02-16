@@ -57,9 +57,9 @@ var NotesHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)
 
 	switch r.Method {
 	case "GET":
-		notetext := standupnotesservice.GetNote(vars["date"])
+		note := standupnotesservice.GetNote(vars["date"])
 
-		json.NewEncoder(w).Encode(notetext)
+		json.NewEncoder(w).Encode(note)
 	case "POST":
 		w.Write([]byte("Saved"))
 	}
