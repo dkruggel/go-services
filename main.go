@@ -52,6 +52,8 @@ var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 
 var NotesHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	switch r.Method {
 	case "GET":
