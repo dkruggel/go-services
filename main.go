@@ -23,8 +23,9 @@ func main() {
 	r.Handle("/weather", HomeHandler).Methods("GET")
 
 	// Stand up notes
-	r.Handle("/notes/{date}", NotesHandler).Methods("GET")
-	r.Handle("/notes/{date}", NotesHandler).Methods("POST")
+	r.Handle("/notes", NoteHandler).Methods("GET")
+	r.Handle("/note/{date}", NotesHandler).Methods("GET")
+	r.Handle("/note/{date}", NotesHandler).Methods("POST")
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -48,6 +49,14 @@ var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	weathertext := weatherservice.GetWeather()
 	json.NewEncoder(w).Encode(weathertext)
+})
+
+var NoteHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	notelist := standupnotesservice.GetAllNotes()
+	json.NewEncoder(w).Encode(notelist)
 })
 
 var NotesHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

@@ -21,7 +21,29 @@ type StandupNote struct {
 	GoBacks     string
 }
 
-func GetNote(date string) StandupNote {
+func GetDBCollection() *mongo.Collection {
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found")
+	}
+
+	uri := os.Getenv("MONGODB_URI")
+	if uri == "" {
+		log.Fatal("You must set your 'MONGODB_URI' environmental variable. See\n\t https://docs.mongodb.com/drivers/go/current/usage-examples/#environment-variable")
+	}
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		if err := client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
+
+	return client.Database("standup-notes").Collection("standup-notes")
+}
+
+func GetAllNotes() []StandupNote {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
@@ -41,13 +63,45 @@ func GetNote(date string) StandupNote {
 	}()
 
 	coll := client.Database("standup-notes").Collection("standup-notes")
+	var notes []StandupNote
 
+	cursor, err := coll.Find(context.TODO(), bson.D{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err = cursor.All(context.TODO(), &notes); err != nil {
+		log.Fatal(err)
+	}
+
+	return notes
+}
+
+func GetNote(date string) StandupNote {
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found")
+	}
+
+	uri := os.Getenv("MONGODB_URI")
+	if uri == "" {
+		log.Fatal("You must set your 'MONGODB_URI' environmental variable. See\n\t https://docs.mongodb.com/drivers/go/current/usage-examples/#environment-variable")
+	}
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		if err := client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
+	coll := client.Database("standup-notes").Collection("standup-notes")
 	var result bson.M
+	var note StandupNote
 	filter := bson.M{"Date": date}
 	err = coll.FindOne(context.TODO(), filter).Decode(&result)
 	if err == mongo.ErrNoDocuments {
 		//return fmt.Sprintf("No document was found with the date %s\n", date)
-		var note StandupNote
 		return note
 	}
 	if err != nil {
@@ -60,9 +114,6 @@ func GetNote(date string) StandupNote {
 		panic(err)
 	}
 
-	var note StandupNote
 	json.Unmarshal(jsonData, &note)
 	return note
-
-	// return fmt.Sprintf("Date: %s\nYesterday: %s\nToday: %s\nImpediments: %s\nGo Backs: %s\n", note.Date, note.Yesterday, note.Today, note.Impediments, note.GoBacks)
 }
