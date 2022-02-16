@@ -40,7 +40,6 @@ var LoadMainPage = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)
 var StatusCheck = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	// w.Write([]byte("API is up and running."))
 	json.NewEncoder(w).Encode("API is up and running.")
 })
 
@@ -49,7 +48,6 @@ var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	weathertext := weatherservice.GetWeather()
 	json.NewEncoder(w).Encode(weathertext)
-	//w.Write([]byte(weathertext))
 })
 
 var NotesHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +57,7 @@ var NotesHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)
 	case "GET":
 		notetext := standupnotesservice.GetNote(vars["date"])
 
-		w.Write([]byte(notetext))
+		json.NewEncoder(w).Encode(notetext)
 	case "POST":
 		w.Write([]byte("Saved"))
 	}
