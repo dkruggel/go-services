@@ -1,0 +1,17 @@
+{{ define "content" }}
+<p class="lead mt-3">
+  <a class="btn btn-dark" type="button" href="/note/new">Create a new note</a>
+</p>
+
+{{ range . }}
+    <card class="card w-25 my-2">
+        <h5 class="card-header">
+            <div class="d-md-flex justify-content-md-between align-items-center">
+                {{ .DisplayDate }}
+                <a class="btn btn-dark btn-sm" type="button" href="/note?id={{.Uuid}}">View</a>
+            </div>
+        </h5>
+    </card>
+{{ end }}
+
+{{ end }}

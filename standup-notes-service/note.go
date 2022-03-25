@@ -77,7 +77,8 @@ func GetAllNotes() []StandupNote {
 	return notes
 }
 
-func GetNote(date string) StandupNote {
+func GetNote(date string) (StandupNote, error) {
+	var note StandupNote
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
@@ -88,32 +89,30 @@ func GetNote(date string) StandupNote {
 	}
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 	if err != nil {
-		panic(err)
+		return note, err
 	}
 	defer func() {
 		if err := client.Disconnect(context.TODO()); err != nil {
-			panic(err)
+			return
 		}
 	}()
 	coll := client.Database("standup-notes").Collection("standup-notes")
 	var result bson.M
-	var note StandupNote
 	filter := bson.M{"Date": date}
 	err = coll.FindOne(context.TODO(), filter).Decode(&result)
 	if err == mongo.ErrNoDocuments {
-		//return fmt.Sprintf("No document was found with the date %s\n", date)
-		return note
+		return note, err
 	}
 	if err != nil {
-		panic(err)
+		return note, err
 	}
 
 	jsonData, err := json.MarshalIndent(result, "", "  ")
 
 	if err != nil {
-		panic(err)
+		return note, err
 	}
 
 	json.Unmarshal(jsonData, &note)
-	return note
+	return note, nil
 }

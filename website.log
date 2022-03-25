@@ -1,0 +1,14 @@
+ERROR 2022/03/14 20:41:01 utils.go:96: pq: duplicate key value violates unique constraint "sessions_email_key" Cannot create session
+WARNING 2022/03/14 20:43:05 utils.go:101: <nil> Failed to get cookie
+WARNING 2022/03/14 20:46:45 utils.go:101: <nil> Failed to get cookie
+WARNING 2022/03/14 20:48:43 utils.go:101: <nil> Failed to get cookie
+WARNING 2022/03/14 21:25:19 utils.go:101: <nil> Failed to get cookie
+ERROR 2022/03/22 16:45:58 utils.go:97: sql: expected 7 arguments, got 8 Cannot create note
+ERROR 2022/03/22 16:49:32 utils.go:97: sql: expected 7 arguments, got 8 Cannot create note
+ERROR 2022/03/22 16:50:17 utils.go:97: pq: INSERT has more expressions than target columns Cannot create note
+ERROR 2022/03/22 16:52:16 utils.go:97: pq: INSERT has more expressions than target columns Cannot create note
+ERROR 2022/03/22 16:52:50 utils.go:97: pq: INSERT has more expressions than target columns Cannot create note
+WARNING 2022/03/24 20:58:25 utils.go:102: <nil> Failed to get cookie
+WARNING 2022/03/24 20:59:09 utils.go:102: <nil> Failed to get cookie
+ERROR 2022/03/24 21:28:21 utils.go:97: sql: no rows in result set Cannot find user
+ERROR 2022/03/24 21:31:02 utils.go:97: sql: no rows in result set Cannot find user

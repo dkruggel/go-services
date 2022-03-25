@@ -1,0 +1,2 @@
+ERROR 2022/03/11 20:20:11 utils.go:100: pq: duplicate key value violates unique constraint "sessions_email_key" Cannot create session
+ERROR 2022/03/11 20:20:41 utils.go:100: pq: duplicate key value violates unique constraint "sessions_email_key" Cannot create session

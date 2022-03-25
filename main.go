@@ -15,7 +15,17 @@ func main() {
 	r := mux.NewRouter()
 
 	// Load main page
-	r.Handle("/", LoadMainPage).Methods("GET")
+	r.HandleFunc("/", index)
+
+	// Load error page
+	r.HandleFunc("/err", err)
+
+	// Auth pages
+	r.HandleFunc("/login", login)
+	r.HandleFunc("/logout", logout)
+	r.HandleFunc("/signup", signup)
+	r.HandleFunc("/signup_account", signupAccount)
+	r.HandleFunc("/authenticate", authenticate)
 
 	r.Handle("/status", StatusCheck).Methods("GET")
 
@@ -23,7 +33,10 @@ func main() {
 	r.Handle("/weather", HomeHandler).Methods("GET")
 
 	// Stand up notes
-	r.Handle("/notes", NoteHandler).Methods("GET")
+	r.HandleFunc("/notes", getNotes)
+	r.HandleFunc("/note", getNote)
+	r.HandleFunc("/note/new", newNote)
+	r.HandleFunc("/note/create", createNote)
 	r.Handle("/note/{date}", NotesHandler).Methods("GET")
 	r.Handle("/note/{date}", NotesHandler).Methods("POST")
 
@@ -47,6 +60,7 @@ var StatusCheck = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
 	weathertext := weatherservice.GetWeather()
 	json.NewEncoder(w).Encode(weathertext)
 })
@@ -65,11 +79,19 @@ var NotesHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request)
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	switch r.Method {
-	case "GET":
-		note := standupnotesservice.GetNote(vars["date"])
+	case http.MethodGet:
+		note, err := standupnotesservice.GetNote(vars["date"])
 
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(note)
-	case "POST":
+	case http.MethodPost:
 		w.Write([]byte("Saved"))
+	case http.MethodPut:
+	case http.MethodDelete:
+		w.Write([]byte("Not Implemented Yet"))
 	}
 })

@@ -1,0 +1,53 @@
+{{ define "content" }}
+
+<div class="card my-3 ">
+    <h4 class="card-header">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-between align-items-center">
+            <div>
+                {{ .DisplayDate }}
+            </div>
+            <div>
+                <button class="btn btn-dark" type="button">Delete</button>
+                <button class="btn btn-dark" type="button">Edit</button>
+            </div>
+        </div>
+    </h4>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Yesterday</h5>
+                        <p class="card-text">{{ .Yesterday }}</p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Today</h5>
+                        <p class="card-text">{{ .Today }}</p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Go Backs</h5>
+                        <p class="card-text">{{ .GoBacks }}</p>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Impediments</h5>
+                        <p class="card-text">{{ .Impediments }}</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+{{ end }}
