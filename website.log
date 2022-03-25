@@ -12,3 +12,10 @@ WARNING 2022/03/24 20:58:25 utils.go:102: <nil> Failed to get cookie
 WARNING 2022/03/24 20:59:09 utils.go:102: <nil> Failed to get cookie
 ERROR 2022/03/24 21:28:21 utils.go:97: sql: no rows in result set Cannot find user
 ERROR 2022/03/24 21:31:02 utils.go:97: sql: no rows in result set Cannot find user
+WARNING 2022/03/25 07:41:03 utils.go:102: <nil> Failed to get cookie
+WARNING 2022/03/25 07:49:42 utils.go:102: <nil> Failed to get cookie
+WARNING 2022/03/25 07:49:42 utils.go:102: dial tcp: lookup port=: no such host Failed to delete session
+ERROR 2022/03/25 07:49:58 utils.go:97: dial tcp: lookup port=: no such host Cannot find user
+ERROR 2022/03/25 08:03:55 utils.go:97: pq: duplicate key value violates unique constraint "sessions_email_key" Cannot create session
+ERROR 2022/03/25 08:06:09 utils.go:97: dial tcp: lookup port=: no such host Cannot find user
+ERROR 2022/03/25 08:06:21 utils.go:97: dial tcp: lookup port=: no such host Cannot find user

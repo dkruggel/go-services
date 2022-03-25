@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/lib/pq"
 )
@@ -14,7 +15,12 @@ var Db *sql.DB
 
 func init() {
 	var err error
-	Db, err = sql.Open("postgres", "host=ec2-34-198-122-185.compute-1.amazonaws.com port=5432 user=qpeqccitgygwlk password=a05119c38e5915e7c74cc62cd9d69090a930b20f94c0b03323881d92fae7decd dbname=d8uh53klqorn9q")
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	pw := os.Getenv("DB_PW")
+	dataSource := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=d8uh53klqorn9q", host, port, user, pw)
+	Db, err = sql.Open("postgres", dataSource)
 	if err != nil {
 		log.Fatal(err)
 	}
