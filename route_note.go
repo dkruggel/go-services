@@ -67,7 +67,7 @@ func createNote(writer http.ResponseWriter, request *http.Request) {
 		if _, err := user.CreateNote(date, yesterday, today, gobacks, impediments); err != nil {
 			danger(err, "Cannot create note")
 		}
-		http.Redirect(writer, request, "/", http.StatusFound)
+		http.Redirect(writer, request, "/notes", http.StatusFound)
 	}
 }
 
