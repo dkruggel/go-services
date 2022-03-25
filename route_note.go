@@ -18,9 +18,7 @@ func newNote(writer http.ResponseWriter, request *http.Request) {
 		if err != nil {
 			date = formatDate(time.Now())
 		} else if time.Now().Weekday() == time.Friday {
-			date = formatDate(time.Now().AddDate(0, 0, 2))
-		} else if time.Now().Weekday() == time.Sunday {
-			date = formatDate(time.Now().AddDate(0, 0, 1))
+			date = formatDate(time.Now().AddDate(0, 0, 3))
 		} else if exists == nil {
 			date = ""
 		} else {
