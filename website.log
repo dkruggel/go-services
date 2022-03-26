@@ -21,3 +21,7 @@ ERROR 2022/03/25 08:06:09 utils.go:97: dial tcp: lookup port=: no such host Cann
 ERROR 2022/03/25 08:06:21 utils.go:97: dial tcp: lookup port=: no such host Cannot find user
 ERROR 2022/03/25 16:22:08 utils.go:97: dial tcp: lookup port=: no such host Cannot find user
 ERROR 2022/03/25 16:22:10 utils.go:97: dial tcp: lookup port=: no such host Cannot find user
+ERROR 2022/03/25 16:31:17 utils.go:97: dial tcp: lookup port=: no such host Cannot find user
+ERROR 2022/03/25 16:47:12 utils.go:97: dial tcp: lookup port=: no such host Cannot find user
+ERROR 2022/03/25 17:28:12 utils.go:97: dial tcp: lookup tcp/user=: Servname not supported for ai_socktype Cannot find user
+ERROR 2022/03/25 17:33:02 utils.go:97: pq: duplicate key value violates unique constraint "sessions_email_key" Cannot create session

@@ -41,7 +41,10 @@ func authenticate(writer http.ResponseWriter, request *http.Request) {
 		danger(err, "Cannot find user")
 	}
 	if user.Password == data.Encrypt(request.PostFormValue("password")) {
-		session, err := user.CreateSession()
+		session, err := user.Session()
+		if err != nil {
+			session, err = user.CreateSession()
+		}
 		if err != nil {
 			danger(err, "Cannot create session")
 		}
@@ -49,6 +52,7 @@ func authenticate(writer http.ResponseWriter, request *http.Request) {
 			Name:     "_cookie",
 			Value:    session.Uuid,
 			HttpOnly: true,
+			MaxAge:   24 * 60 * 60, // 24 hours
 		}
 		http.SetCookie(writer, &cookie)
 		http.Redirect(writer, request, "/", http.StatusFound)
