@@ -33,10 +33,13 @@ func main() {
 	r.Handle("/weather", HomeHandler).Methods("GET")
 
 	// Stand up notes
-	r.HandleFunc("/notes", getNotes)
-	r.HandleFunc("/note", getNote)
-	r.HandleFunc("/note/new", newNote)
-	r.HandleFunc("/note/create", createNote)
+	r.HandleFunc("/notes", getNotes)                          // Get all of the notes
+	r.HandleFunc("/note", getNote)                            // Get one specific note
+	r.HandleFunc("/note/new", newNote)                        // Get new note page
+	r.HandleFunc("/note/create", createNote)                  // Create new note
+	r.HandleFunc("/note/edit", editNote)                      // Edit existing note
+	r.HandleFunc("/note/update", updateNote)                  // Update existing note
+	r.HandleFunc("note/delete", deleteNote).Methods("DELETE") // Delete existing note
 	r.Handle("/note/{date}", NotesHandler).Methods("GET")
 	r.Handle("/note/{date}", NotesHandler).Methods("POST")
 

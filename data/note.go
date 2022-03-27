@@ -76,3 +76,29 @@ func (user *User) CreateNote(date string, yesterday string, today string, goback
 	err = stmt.QueryRow(createUUID(), user.Id, date, yesterday, today, impediments, gobacks).Scan(&note.Uuid, &note.Id, &note.Date, &note.Yesterday, &note.Today, &note.Impediments, &note.GoBacks)
 	return
 }
+
+func (user *User) UpdateNote(uuid string, date string, yesterday string, today string, gobacks string, impediments string) (note Note, err error) {
+	statement := "UPDATE notes SET date = $1, yesterday = $2, today = $3, impediments = $4, go_backs = $5 WHERE uuid = $6 returning uuid, date, yesterday, today, impediments, go_backs"
+	stmt, err := Db.Prepare(statement)
+	if err != nil {
+		return
+	}
+	defer stmt.Close()
+	err = stmt.QueryRow(date, yesterday, today, impediments, gobacks, uuid).Scan(&note.Date, &note.Yesterday, &note.Today, &note.Impediments, &note.GoBacks, &note.Uuid)
+	return
+}
+
+func (user *User) DeleteNote(uuid string) (err error) {
+	statement := "DELETE FROM notes WHERE uuid = $1"
+	stmt, err := Db.Prepare(statement)
+	if err != nil {
+		return
+	}
+	defer stmt.Close()
+	res, err := stmt.Exec(statement, uuid)
+	if err != nil {
+		return
+	}
+	fmt.Printf("%v", res)
+	return
+}
