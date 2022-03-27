@@ -2,8 +2,6 @@ package main
 
 import (
 	"net/http"
-
-	"github.com/dkruggel/go-services/data"
 )
 
 // GET /err?msg=
@@ -19,15 +17,19 @@ func err(writer http.ResponseWriter, request *http.Request) {
 }
 
 func index(writer http.ResponseWriter, request *http.Request) {
-	notes, err := data.Notes()
+	_, err := session(writer, request)
 	if err != nil {
-		error_message(writer, request, "Cannot get notes")
+		generateHTML(writer, "layout", "public.navbar", "index")
 	} else {
-		_, err := session(writer, request)
-		if err != nil {
-			generateHTML(writer, notes, "layout", "public.navbar", "index")
-		} else {
-			generateHTML(writer, notes, "layout", "private.navbar", "index")
-		}
+		generateHTML(writer, "layout", "private.navbar", "index")
+	}
+}
+
+func home(writer http.ResponseWriter, request *http.Request) {
+	_, err := session(writer, request)
+	if err != nil {
+		generateHTML(writer, "layout", "public.navbar", "index")
+	} else {
+		generateHTML(writer, "layout", "private.navbar", "home")
 	}
 }

@@ -17,6 +17,9 @@ func main() {
 	// Load main page
 	r.HandleFunc("/", index)
 
+	// Authenticated home page
+	r.HandleFunc("/home", home)
+
 	// Load error page
 	r.HandleFunc("/err", err)
 
