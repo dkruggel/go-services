@@ -25,3 +25,27 @@ ERROR 2022/03/25 16:31:17 utils.go:97: dial tcp: lookup port=: no such host Cann
 ERROR 2022/03/25 16:47:12 utils.go:97: dial tcp: lookup port=: no such host Cannot find user
 ERROR 2022/03/25 17:28:12 utils.go:97: dial tcp: lookup tcp/user=: Servname not supported for ai_socktype Cannot find user
 ERROR 2022/03/25 17:33:02 utils.go:97: pq: duplicate key value violates unique constraint "sessions_email_key" Cannot create session
+ERROR 2022/03/26 20:34:35 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:37:36 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:39:00 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:41:34 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:42:46 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:43:38 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:44:53 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:45:32 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:45:54 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:47:30 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:49:50 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:51:21 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:52:15 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:55:19 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:56:34 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:58:07 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 20:59:31 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 21:01:00 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 21:01:53 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 21:03:59 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 21:04:55 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 21:06:32 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 21:09:34 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+ERROR 2022/03/26 21:11:32 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
