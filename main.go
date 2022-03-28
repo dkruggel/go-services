@@ -7,7 +7,6 @@ import (
 	"os"
 
 	standupnotesservice "github.com/dkruggel/go-services/standup-notes-service"
-	weatherservice "github.com/dkruggel/go-services/weather-service"
 	"github.com/gorilla/mux"
 )
 
@@ -30,7 +29,7 @@ func main() {
 	r.Handle("/status", StatusCheck).Methods("GET")
 
 	// Weather
-	r.Handle("/weather", HomeHandler).Methods("GET")
+	//r.Handle("/weather", HomeHandler).Methods("GET")
 
 	// Stand up notes
 	r.HandleFunc("/notes", getNotes)
@@ -57,13 +56,13 @@ var StatusCheck = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) 
 	json.NewEncoder(w).Encode("API is up and running.")
 })
 
-var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json")
-	weathertext := weatherservice.GetWeather()
-	json.NewEncoder(w).Encode(weathertext)
-})
+// var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Access-Control-Allow-Origin", "*")
+// 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+// 	w.Header().Set("Content-Type", "application/json")
+// 	weathertext := weatherservice.GetWeather()
+// 	json.NewEncoder(w).Encode(weathertext)
+// })
 
 var NoteHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
