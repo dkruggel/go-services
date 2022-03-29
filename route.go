@@ -2,6 +2,8 @@ package main
 
 import (
 	"net/http"
+
+	"github.com/dkruggel/go-services/data"
 )
 
 // GET /err?msg=
@@ -19,17 +21,21 @@ func err(writer http.ResponseWriter, request *http.Request) {
 func index(writer http.ResponseWriter, request *http.Request) {
 	_, err := session(writer, request)
 	if err != nil {
-		generateHTML(writer, "layout", "public.navbar", "index")
+		generateHTML(writer, nil, "layout", "public.navbar", "index")
 	} else {
-		generateHTML(writer, "layout", "private.navbar", "index")
+		generateHTML(writer, nil, "layout", "private.navbar", "index")
 	}
 }
 
 func home(writer http.ResponseWriter, request *http.Request) {
 	_, err := session(writer, request)
 	if err != nil {
-		generateHTML(writer, "layout", "public.navbar", "index")
+		generateHTML(writer, nil, "layout", "public.navbar", "index")
 	} else {
-		generateHTML(writer, "layout", "private.navbar", "home")
+		weather, err := data.GetWeather()
+		if err != nil {
+			error_message(writer, request, "Cannot get weather")
+		}
+		generateHTML(writer, &weather, "layout", "private.navbar", "home", "weather")
 	}
 }

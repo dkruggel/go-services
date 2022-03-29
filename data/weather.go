@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math"
 	"net/http"
 	"os"
 	"strings"
@@ -59,8 +60,10 @@ type WeatherNow struct {
 	Snow        WeatherSnow `json:"snow"`
 }
 
-func (*Weather) GetCelcius(incoming float64) float64 {
-	return incoming - 273.15
+func (*Weather) GetCelcius(incoming float64, decPlaces int) float64 {
+	x := math.Pow(10, float64(decPlaces))
+	final := math.Round((incoming-273.15)*x) / x
+	return final
 }
 
 func GetLocalTime(inc float64) string {
@@ -68,7 +71,15 @@ func GetLocalTime(inc float64) string {
 	return time.Unix(int64(inc), 0).UTC().In(loc).Format("3:04pm")
 }
 
-func GetWeather() Weather {
+func (weather *Weather) DisplayCurrentTemp() string {
+	return fmt.Sprintf("%.2f\u2103", weather.Current.CurrentTemp-273.15)
+}
+
+func (weather *Weather) DisplayFeelsLike() string {
+	return fmt.Sprintf("%.2f\u2103", weather.Current.FeelsLike-273.15)
+}
+
+func GetWeather() (w Weather, err error) {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
@@ -99,25 +110,20 @@ func GetWeather() Weather {
 
 	dec := json.NewDecoder(strings.NewReader(string(body)))
 
-	var c Weather
-
 	for {
-		if err := dec.Decode(&c); err == io.EOF {
+		if err := dec.Decode(&w); err == io.EOF {
 			break
 		} else if err != nil {
 			log.Fatal(err)
 		}
 
-		c.Current.CurrentTemp = c.GetCelcius(c.Current.CurrentTemp)
-		c.Current.FeelsLike = c.GetCelcius(c.Current.FeelsLike)
-
-		for i := range c.Daily {
-			c.Daily[i].Temp.Day = c.GetCelcius(c.Daily[i].Temp.Day)
-			c.Daily[i].Temp.Min = c.GetCelcius(c.Daily[i].Temp.Min)
-			c.Daily[i].Temp.Max = c.GetCelcius(c.Daily[i].Temp.Max)
-			c.Daily[i].Temp.Night = c.GetCelcius(c.Daily[i].Temp.Night)
-			c.Daily[i].Temp.Eve = c.GetCelcius(c.Daily[i].Temp.Eve)
-			c.Daily[i].Temp.Morn = c.GetCelcius(c.Daily[i].Temp.Morn)
+		for i := range w.Daily {
+			w.Daily[i].Temp.Day = w.GetCelcius(w.Daily[i].Temp.Day, 2)
+			w.Daily[i].Temp.Min = w.GetCelcius(w.Daily[i].Temp.Min, 2)
+			w.Daily[i].Temp.Max = w.GetCelcius(w.Daily[i].Temp.Max, 2)
+			w.Daily[i].Temp.Night = w.GetCelcius(w.Daily[i].Temp.Night, 2)
+			w.Daily[i].Temp.Eve = w.GetCelcius(w.Daily[i].Temp.Eve, 2)
+			w.Daily[i].Temp.Morn = w.GetCelcius(w.Daily[i].Temp.Morn, 2)
 		}
 
 		// text = fmt.Sprintf("Current: %.2f\u2103\nReal Feel: %.2f\u2103\nSunrise: %s\nSunset: %s\n", GetCelcius(c.Current.CurrentTemp),
@@ -125,5 +131,5 @@ func GetWeather() Weather {
 		// 	GetLocalTime(c.Current.Sunset))
 	}
 
-	return c
+	return w, err
 }
