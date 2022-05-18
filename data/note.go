@@ -17,8 +17,8 @@ type Note struct {
 }
 
 // Get all the notes in the database
-func Notes() (notes []Note, err error) {
-	rows, err := Db.Query("SELECT id, uuid, user_id, date, yesterday, today, impediments, go_backs FROM notes ORDER BY date DESC")
+func (user *User) Notes() (notes []Note, err error) {
+	rows, err := Db.Query("SELECT id, uuid, user_id, date, yesterday, today, impediments, go_backs FROM notes WHERE user_id = $1 ORDER BY date DESC", user.Id)
 	if err != nil {
 		return
 	}
