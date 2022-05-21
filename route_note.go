@@ -91,16 +91,19 @@ func createNote(writer http.ResponseWriter, request *http.Request) {
 }
 
 func getNotes(writer http.ResponseWriter, request *http.Request) {
-	notes, err := data.Notes()
+	session, err := session(writer, request)
+	if err != nil {
+		http.Redirect(writer, request, "/login", http.StatusFound)
+	}
+	user, err := session.User()
+	if err != nil {
+		danger(err, "Cannot get user from session")
+	}
+	notes, err := user.Notes()
 	if err != nil {
 		error_message(writer, request, "Cannot retrieve notes")
 	} else {
-		_, err := session(writer, request)
-		if err != nil {
-			http.Redirect(writer, request, "/", http.StatusFound)
-		} else {
-			generateHTML(writer, &notes, "layout", "private.navbar", "notes")
-		}
+		generateHTML(writer, &notes, "layout", "private.navbar", "notes")
 	}
 }
 
@@ -138,9 +141,7 @@ func deleteNote(writer http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		http.Redirect(writer, request, "/login", http.StatusFound)
 	} else {
-		fmt.Println("About to get the user")
 		user, err := sess.User()
-		fmt.Printf("%s\n", user.Name)
 		if err != nil {
 			danger(err, "Cannot get user from session")
 		}

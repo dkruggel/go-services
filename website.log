@@ -49,3 +49,8 @@ ERROR 2022/03/26 21:04:55 utils.go:97: pq: invalid input syntax for type date: "
 ERROR 2022/03/26 21:06:32 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
 ERROR 2022/03/26 21:09:34 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
 ERROR 2022/03/26 21:11:32 utils.go:97: pq: invalid input syntax for type date: "" Cannot create note
+WARNING 2022/05/21 15:55:01 utils.go:102: <nil> Failed to get cookie
+ERROR 2022/05/21 15:55:02 utils.go:97: sql: no rows in result set Cannot get user from session
+ERROR 2022/05/21 15:55:11 utils.go:97: sql: no rows in result set Cannot find user
+WARNING 2022/05/21 15:56:15 utils.go:102: <nil> Failed to get cookie
+ERROR 2022/05/21 15:56:15 utils.go:97: sql: no rows in result set Cannot get user from session
