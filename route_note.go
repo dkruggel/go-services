@@ -85,7 +85,7 @@ func createNote(writer http.ResponseWriter, request *http.Request) {
 		if _, err := user.CreateNote(date, yesterday, today, gobacks, impediments); err != nil {
 			danger(err, "Cannot create note")
 		}
-		redir := fmt.Sprintf("/note?%s", uuid)
+		redir := fmt.Sprintf("/note?id=%s", uuid)
 		http.Redirect(writer, request, redir, http.StatusFound)
 	}
 }
