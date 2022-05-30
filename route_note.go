@@ -71,21 +71,23 @@ func createNote(writer http.ResponseWriter, request *http.Request) {
 		if err != nil {
 			danger(err, "Cannot parse form")
 		}
+
 		user, err := sess.User()
 		if err != nil {
 			danger(err, "Cannot get user from session")
 		}
+
 		date := request.PostFormValue("date")
 		yesterday := request.PostFormValue("yesterday")
 		today := request.PostFormValue("today")
 		gobacks := request.PostFormValue("gobacks")
 		impediments := request.PostFormValue("impediments")
-		vals := request.URL.Query()
-		uuid := vals.Get("id")
-		if _, err := user.CreateNote(date, yesterday, today, gobacks, impediments); err != nil {
+
+		note, err := user.CreateNote(date, yesterday, today, gobacks, impediments)
+		if err != nil {
 			danger(err, "Cannot create note")
 		}
-		redir := fmt.Sprintf("/note?id=%s", uuid)
+		redir := fmt.Sprintf("/note?id=%s", note.Uuid)
 		http.Redirect(writer, request, redir, http.StatusFound)
 	}
 }
