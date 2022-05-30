@@ -26,8 +26,6 @@ func main() {
 	r.HandleFunc("/signup_account", signupAccount)
 	r.HandleFunc("/authenticate", authenticate)
 
-	r.Handle("/status", StatusCheck).Methods("GET")
-
 	// Weather
 	//r.Handle("/weather", HomeHandler).Methods("GET")
 
@@ -48,16 +46,6 @@ func main() {
 	}
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }
-
-var LoadMainPage = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hi! My name is David Kruggel and I am a software engineer specializing in .NET framework/core, Go, and React."))
-})
-
-var StatusCheck = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	json.NewEncoder(w).Encode("API is up and running.")
-})
 
 // var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 // 	w.Header().Set("Access-Control-Allow-Origin", "*")

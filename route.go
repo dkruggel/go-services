@@ -19,16 +19,17 @@ func err(writer http.ResponseWriter, request *http.Request) {
 func index(writer http.ResponseWriter, request *http.Request) {
 	session, err := session(writer, request)
 	if err != nil {
-		http.Redirect(writer, request, "/login", http.StatusFound)
-	}
-	user, err := session.User()
-	if err != nil {
-		danger(err, "Cannot get user from session")
-	}
-	notes, err := user.Notes()
-	if err != nil {
-		error_message(writer, request, "Cannot retrieve notes")
+		generateHTML(writer, request, "layout", "public.navbar", "index")
 	} else {
-		generateHTML(writer, &notes, "layout", "private.navbar", "notes")
+		user, err := session.User()
+		if err != nil {
+			danger(err, "Cannot get user from session")
+		}
+		notes, err := user.Notes()
+		if err != nil {
+			error_message(writer, request, "Cannot retrieve notes")
+		} else {
+			generateHTML(writer, &notes, "layout", "private.navbar", "notes")
+		}
 	}
 }
