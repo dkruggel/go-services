@@ -1,0 +1,25 @@
+{{ define "content" }}
+    <div>
+        Current Temp: {{ .Current.TempCelcius }}
+        Real Feel: {{ .Current.RealFeelCelcius }}
+        Condition: {{ (index .Current.Condition 0).Main }}
+        {{ range .Hourly }}
+            <card class="card w-25 my-2">
+                <h5 class="card-header">
+                    Time: {{ .DisplayTime }}
+                </h5>
+                <div class="card-body">
+                    <div class="card-text">
+                        Temperature: {{ .TempCelcius }}
+                    </div>
+                    <div class="card-text">
+                        Real Feel: {{ .RealFeelCelcius }}
+                    </div>
+                    <div class="card-text">
+                        Condition: {{ (index .Condition 0).Main }}
+                    </div>
+                </div>
+            </card>
+        {{ end }}
+    </div>
+{{ end }}

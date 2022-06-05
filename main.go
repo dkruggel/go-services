@@ -27,7 +27,7 @@ func main() {
 	r.HandleFunc("/authenticate", authenticate)
 
 	// Weather
-	//r.Handle("/weather", HomeHandler).Methods("GET")
+	r.HandleFunc("/weather", getWeather) // Get weather data
 
 	// Stand up notes
 	r.HandleFunc("/notes", getNotes)                          // Get all of the notes
@@ -36,7 +36,7 @@ func main() {
 	r.HandleFunc("/note/create", createNote)                  // Create new note
 	r.HandleFunc("/note/edit", editNote)                      // Edit existing note
 	r.HandleFunc("/note/update", updateNote)                  // Update existing note
-	r.HandleFunc("note/delete", deleteNote).Methods("DELETE") // Delete existing note
+	r.HandleFunc("note/delete", deleteNote).Methods("DELETE") // Delete existing note - TODO: FIX
 	r.Handle("/note/{date}", NotesHandler).Methods("GET")
 	r.Handle("/note/{date}", NotesHandler).Methods("POST")
 
@@ -46,14 +46,6 @@ func main() {
 	}
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }
-
-// var HomeHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Set("Access-Control-Allow-Origin", "*")
-// 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-// 	w.Header().Set("Content-Type", "application/json")
-// 	weathertext := weatherservice.GetWeather()
-// 	json.NewEncoder(w).Encode(weathertext)
-// })
 
 var NoteHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
