@@ -1,0 +1,70 @@
+{{ define "content" }}
+    <div>
+        <div class="d-flex flex-row align-items-center justify-content-center">
+            <div class="d-flex flex-column">
+                <h5>
+                    Current Temp: {{ .Current.TempCelcius }}&#730;C
+                </h5>
+                <h5>
+                    Real Feel: {{ .Current.RealFeelCelcius }}&#730;C
+                </h5>
+                <h5>
+                    Condition: {{ (index .Current.Condition 0).Main }}
+                </h5>
+            </div>
+            <img src="{{ (index .Current.Condition 0).DisplayIcon }}" alt="weather icon" />
+        </div>
+        <div class="d-flex flex-row align-items-center justify-content-around">
+            <div>
+                {{ range $i, $e := .Hourly }}{{if lt $i 6}}
+                    <card class="card w-100 my-2">
+                        <h5 class="card-header">
+                            {{ .DisplayTime }}
+                        </h5>
+                        <div class="card-body d-flex flex-row align-items-center justify-content-md-between">
+                            <div>
+                                <div class="card-text">
+                                    Temperature: {{ .TempCelcius }}&#730;C
+                                </div>
+                                <div class="card-text">
+                                    Real Feel: {{ .RealFeelCelcius }}&#730;C
+                                </div>
+                                <div class="card-text">
+                                    Condition: {{ (index .Condition 0).Main }}
+                                </div>
+                            </div>
+                            <div>
+                                <img src="{{ (index .Condition 0).DisplayIcon }}" alt="weather icon" />
+                            </div>
+                        </div>
+                    </card>
+                {{ end }}{{ end }}
+            </div>
+            <div>
+                {{ range $i, $e := .Daily }}{{if lt $i 6}}
+                <card class="card w-100 my-2">
+                    <h5 class="card-header">
+                        {{ .DisplayDate }}
+                    </h5>
+                    <div class="card-body d-flex flex-row align-items-center justify-content-md-between">
+                        <div>
+                            <div class="card-text">
+                                High: {{ .Temp.MaxTempCelcius }}&#730;C
+                            </div>
+                            <div class="card-text">
+                                Low: {{ .Temp.MinTempCelcius }}&#730;C
+                            </div>
+                            <div class="card-text">
+                                Condition: {{ (index .Condition 0).Main }}
+                            </div>
+                        </div>
+                        <div>
+                            <img src="{{ (index .Condition 0).DisplayIcon }}" alt="weather icon" />
+                        </div>
+                    </div>
+                </card>
+            {{ end }}{{ end }}
+            </div>
+        </div>
+    </div>
+{{ end }}

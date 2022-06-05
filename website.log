@@ -54,3 +54,5 @@ ERROR 2022/05/21 15:55:02 utils.go:97: sql: no rows in result set Cannot get use
 ERROR 2022/05/21 15:55:11 utils.go:97: sql: no rows in result set Cannot find user
 WARNING 2022/05/21 15:56:15 utils.go:102: <nil> Failed to get cookie
 ERROR 2022/05/21 15:56:15 utils.go:97: sql: no rows in result set Cannot get user from session
+ERROR 2022/05/30 10:09:37 utils.go:97: sql: no rows in result set Cannot get user from session
+WARNING 2022/05/30 10:16:11 utils.go:102: <nil> Failed to get cookie
