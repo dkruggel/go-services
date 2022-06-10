@@ -86,7 +86,7 @@ func (weather WeatherNow) RealFeelCelcius() (temp string) {
 }
 
 func (weather WeatherNow) DisplayTime() (t string) {
-	dt := int64(time.Unix(weather.Time, 0).Hour())
+	dt := int64(time.Unix(weather.Time, 0).Local().Hour())
 	if dt > 12 {
 		return fmt.Sprintf("%d:00p", dt%12)
 	} else if dt == 0 {
