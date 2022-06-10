@@ -52,7 +52,7 @@ func authenticate(writer http.ResponseWriter, request *http.Request) {
 			Name:     "_cookie",
 			Value:    session.Uuid,
 			HttpOnly: true,
-			MaxAge:   24 * 60 * 60, // 24 hours
+			MaxAge:   5 * 24 * 60 * 60, // 5 days
 		}
 		http.SetCookie(writer, &cookie)
 		http.Redirect(writer, request, "/", http.StatusFound)
